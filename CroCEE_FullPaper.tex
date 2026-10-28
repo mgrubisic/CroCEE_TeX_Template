@@ -1,7 +1,7 @@
 %% =====================================================================
 %%  4CroCEE 2027 -- full paper template (LaTeX)
 %%
-%%  Files: Definitions/CroCEE.cls (class), Definitions/elsevier-with-titles.bst
+%%  Files: Definitions/CroCEE.cls (class), Definitions/Elsevier.bst
 %%         (BibTeX style), Bibliography/references.bib, Figures/ (logo, figures)
 %%  Compile: pdfLaTeX (or XeLaTeX/LuaLaTeX) + BibTeX + pdfLaTeX x2;
 %%           Overleaf does this automatically.
@@ -120,9 +120,9 @@ Acknowledgements provide an opportunity to express appreciation to those who con
 
 %% (\setbibpreamble is optional text between the heading and the list;
 %%  it is used here only to explain the style -- delete it in your paper)
-\setbibpreamble{References must be cited in the text using square brackets, numbered according to the order in which they appear in the text, e.g. \cite{DAyala2003,Bommer2010} or \cite{Magenes2011,POLIMI2010,Kayen2014,Chopra2019,Beyer2019,Lazarevic2019}, and listed at the end of the manuscript in a section called References. Citations are produced with \texttt{\textbackslash cite\{key\}}. The reference list follows the \emph{Elsevier (numeric, with titles)} style and is generated automatically by BibTeX from the file \texttt{Bibliography/references.bib} with the style \texttt{Definitions/elsevier-with-titles.bst}; only the cited works are listed, in order of first citation. The same style is available in Zotero and Mendeley under the same name, so that the Word and LaTeX versions of a paper produce identical reference lists. Examples of a journal article \cite{DAyala2003,Bommer2010}, a conference paper \cite{Magenes2011}, technical reports \cite{POLIMI2010,Kayen2014}, a book \cite{Chopra2019}, an electronic source \cite{Beyer2019} and a personal communication \cite{Lazarevic2019} are given below; the corresponding entries are in \texttt{Bibliography/references.bib}.}
+\setbibpreamble{References must be cited in the text using square brackets, numbered according to the order in which they appear in the text, e.g. \cite{DAyala2003,Bommer2010} or \cite{Magenes2011,POLIMI2010,Kayen2014,Chopra2019,Beyer2019,Lazarevic2019}, and listed at the end of the manuscript in a section called References. Citations are produced with \texttt{\textbackslash cite\{key\}}. The reference list follows the \emph{Elsevier (numeric, with titles)} style and is generated automatically by BibTeX from the file \texttt{Bibliography/references.bib} with the style \texttt{Definitions/Elsevier.bst}; only the cited works are listed, in order of first citation. The same style is available in Zotero and Mendeley under the same name, so that the Word and LaTeX versions of a paper produce identical reference lists. Examples of a journal article \cite{DAyala2003,Bommer2010}, a conference paper \cite{Magenes2011}, technical reports \cite{POLIMI2010,Kayen2014}, a book \cite{Chopra2019}, an electronic source \cite{Beyer2019} and a personal communication \cite{Lazarevic2019} are given below; the corresponding entries are in \texttt{Bibliography/References.bib}.}
 
-\bibliographystyle{Definitions/elsevier-with-titles}
-\bibliography{Bibliography/references}
+\bibliographystyle{Definitions/Elsevier}
+\bibliography{Bibliography/References}
 
 \end{document}

@@ -17,8 +17,8 @@ reports: conference e-mail or the repository issue tracker.
 4CroCEE_FullPaper.tex          full paper example – copy it and write your paper in it
 4CroCEE_ExtendedAbstract.tex   extended abstract example (class option "extended")
 Definitions/CroCEE.cls         document class – all formatting; do not edit
-Definitions/elsevier-with-titles.bst   BibTeX style (Elsevier numeric, with titles)
-Definitions/elsevier-with-titles.csl   the same style for Zotero / Mendeley (Word users)
+Definitions/Elsevier.bst   BibTeX style (Elsevier numeric, with titles)
+Definitions/Elsevier.csl   the same style for Zotero / Mendeley (Word users)
 Bibliography/references.bib    example BibTeX database with one entry of each type
 Figures/4CroCEE_logo.png       header logo (used by the class)
 Figures/example_figure.png     example figure – delete in your paper
@@ -184,11 +184,11 @@ file give identical reference lists in Word and in LaTeX.
 | Personal communication | D. Lazarevic, Personal correspondence, (2019). |
 
 The style does not print report numbers separately ("PEER 2014/05"); write them at
-the end of the title, as in `Bibliography/references.bib`.
+the end of the title, as in `Bibliography/References.bib`.
 
 ```latex
-\bibliographystyle{elsevier-with-titles}   % found in Definitions/
-\bibliography{Bibliography/references}
+\bibliographystyle{Definitions/Elsevier} 
+\bibliography{Bibliography/References}
 ```
 
 The heading "References" is added automatically. `\setbibpreamble{...}` (text between
@@ -205,7 +205,7 @@ number: `edition = {5}`.
 
 - **Zotero**: Word add-in → *Document Preferences* → choose "Elsevier (numeric, with
   titles)". If it is not listed: *Settings → Cite → Get additional styles…*, or add
-  `elsevier-with-titles.csl` with the **+** button.
+  `Elsevier.csl` with the **+** button.
 - **Mendeley Cite**: *Citation Style* → search "Elsevier (numeric, with titles)".
 
 ## Editorial commands (used by the editors, leave commented out)
