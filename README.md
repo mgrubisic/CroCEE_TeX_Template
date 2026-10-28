@@ -16,13 +16,12 @@ tracker of this repository.
 ```
 4CroCEE_FullPaper.tex          full paper example – copy it and write your paper in it
 4CroCEE_ExtendedAbstract.tex   extended abstract example (class option "extended")
-CroCEE.cls                     document class – all formatting; do not edit
+Definitions/CroCEE.cls         document class – all formatting; do not edit
 Definitions/Elsevier.bst       BibTeX style (Elsevier numeric, with titles)
 Definitions/Elsevier.csl       the same style for Zotero / Mendeley (Word users)
 Bibliography/References.bib    example BibTeX database, one entry of each type
 Figures/4CroCEE_logo.png       header logo (used by the class)
 Figures/example_figure.png     example figure (low-resolution placeholder) – delete in your paper
-CHANGELOG.md                   changes between versions
 README.md                      this file
 ```
 
@@ -68,8 +67,8 @@ prints `The paper has 4 pages; the minimum is 6`. This is the page-length check 
 ## Class options
 
 ```latex
-\documentclass{CroCEE}              % full paper, 6–12 pages, with abstract
-\documentclass[extended]{CroCEE}    % extended abstract, max. 2 pages, no abstract section
+\documentclass{Definitions/CroCEE}           % full paper, 6–12 pages, with abstract
+\documentclass[extended]{Definitions/CroCEE} % extended abstract, max. 2 pages, no abstract section
 ```
 
 Further options: `noparindent` (no 1 cm indentation of paragraphs), `hyphenation` (allow
@@ -292,7 +291,7 @@ longer than 12 pages (extended abstract: longer than 2). The limits are those gi
 example files; always check them against the current *Information for Authors* of the
 conference.
 
-## Before you submit
+## Before you submit (for authors)
 
 - [ ] pdfLaTeX/XeLaTeX run without errors; no `[?]` in the text; no page-length warning
 - [ ] example text, example figure, the `\setbibpreamble` block and the unused `.bib` entries removed
