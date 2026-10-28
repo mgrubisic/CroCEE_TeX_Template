@@ -17,9 +17,9 @@ reports: conference e-mail or the repository issue tracker.
 4CroCEE_FullPaper.tex          full paper example – copy it and write your paper in it
 4CroCEE_ExtendedAbstract.tex   extended abstract example (class option "extended")
 Definitions/CroCEE.cls         document class – all formatting; do not edit
-Definitions/Elsevier.bst   BibTeX style (Elsevier numeric, with titles)
-Definitions/Elsevier.csl   the same style for Zotero / Mendeley (Word users)
-Bibliography/references.bib    example BibTeX database with one entry of each type
+Definitions/Elsevier.bst       BibTeX style (Elsevier numeric, with titles)
+Definitions/Elsevier.csl       the same style for Zotero / Mendeley (Word users)
+Bibliography/References.bib    example BibTeX database with one entry of each type
 Figures/4CroCEE_logo.png       header logo (used by the class)
 Figures/example_figure.png     example figure – delete in your paper
 README.md                      this file
