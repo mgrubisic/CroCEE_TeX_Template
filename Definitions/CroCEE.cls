@@ -20,7 +20,7 @@
 %%  overridden in the document preamble using \croceesetup{key=value}.
 %% =====================================================================
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{Definitions/CroCEE}[2026/10/28 v6.0 4CroCEE paper class (Palatino, exact 1.2 line spacing)]
+\ProvidesClass{Definitions/CroCEE}[2026/10/28 v6.0 4CroCEE paper class (Palatino, exact line spacing)]
 
 %% Floating-point evaluation (\fpeval): part of the LaTeX kernel since
 %% 2022-06; the xfp package provides it on older installations (TeX Live
@@ -37,7 +37,7 @@
 %% Word keeps the font descent (Palatino Linotype: 0.285 x size) at the
 %% bottom of the line box and takes the rest from the top, so the ascent
 %% of the line box is pitch - descent.
-\def\crocee@lh{1.2}                % line pitch / font size (Word "Exactly")
+\def\crocee@lh{1.2}               % line pitch / font size (Word "Exactly")
 \def\crocee@desc{0.285}            % descent of the line box / font size
 \def\crocee@asc{0.915}             % ascent of the line box = lh - desc
 
@@ -564,7 +564,7 @@
 \DeclareCaptionFont{croceestrut}{%
   \crocee@fs[\crocee@mult@caption]{\crocee@sz@caption}%
   \setbox\strutbox\hbox{\crocee@strut}}
-\captionsetup{format=plain, font={croceestrut}, labelfont={},
+\captionsetup{format=plain, font={croceestrut}, labelfont=bf, %{}
   textfont={}, labelsep=period, justification=centering,
   singlelinecheck=false, strut=on}
 \captionsetup[table]{position=above, skip=\crocee@cap@tableskip}
