@@ -1,17 +1,22 @@
 %% =====================================================================
-%%  crocee.cls -- LaTeX class for full papers and extended abstracts of
+%%  CroCEE.cls -- LaTeX class for full papers and extended abstracts of
 %%                the 4th Croatian Conference on Earthquake Engineering
 %%                (4CroCEE, 22--25 March 2027, Opatija, Croatia)
 %%
 %%  Authors: Marin Grubišić and Vedran Jagodnik, with the assistance of
-%%           Claude (Anthropic) and Gemini. Version 6.0, October 2026.
+%%           Claude (Anthropic) and Gemini (Google).
+%%           Version 6.1, October 2026.
 %%
-%%  Faithful LaTeX re-implementation of the official MS Word templates
-%%  "4CroCEE_FullPaper_template.docx" and
-%%  "4CroCEE_ExtendedAbstract_template.docx" (same page layout; the
-%%  extended abstract has no Abstract section and is limited to 2 pages).
+%%  LaTeX re-implementation of the layout of the official MS Word templates
+%%  of the conference (full paper and extended abstract; the extended
+%%  abstract has no Abstract section and is limited to 2 pages). The page
+%%  geometry, fonts and spacings follow the Word templates; see README.md
+%%  ("Validation") for what has and has not been compared with Word.
 %%
-%%  ARCHITECTURE NOTE (v5.1):
+%%  Usage:  \documentclass{CroCEE}            % the file CroCEE.cls is in the
+%%          \documentclass[extended]{CroCEE}  % same folder as the .tex file
+%%
+%%  ARCHITECTURE NOTE:
 %%  All layout, font, metric, and spacing parameters are centralized in
 %%  Section 1 (MASTER CONFIGURATION PARAMETERS). All dependent quantities
 %%  (\baselineskip values, \crocee@ndesc, \crocee@xb, \topskip, section
@@ -19,13 +24,11 @@
 %%  \crocee@recalculate. Parameters can be edited in Section 1 or
 %%  overridden in the document preamble using \croceesetup{key=value}.
 %% =====================================================================
-\NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{Definitions/CroCEE}[2026/10/28 v6.0 4CroCEE paper class (Palatino, exact line spacing)]
-
-%% Floating-point evaluation (\fpeval): part of the LaTeX kernel since
-%% 2022-06; the xfp package provides it on older installations (TeX Live
-%% 2019--2022) and is a harmless wrapper on newer ones
-\RequirePackage{xfp}
+%% Required: LaTeX kernel 2022-06-01 or newer (TeX Live 2022+, MiKTeX 22.7+,
+%% Overleaf). Reasons: \fpeval (kernel since 2022-06) and the hook system
+%% (\AddToHook with shipout/background, para/begin, env/.../after).
+\NeedsTeXFormat{LaTeX2e}[2022/06/01]
+\ProvidesClass{CroCEE}[2026/10/28 v6.1 4CroCEE paper class (Palatino, exact line spacing)]
 
 %% =====================================================================
 %%  1. MASTER CONFIGURATION PARAMETERS (SINGLE SOURCE OF TRUTH)
@@ -84,7 +87,14 @@
 %% --- 1.6 Paragraph, Equation, Section & Float Spacing
 \def\crocee@par@skip{6bp}            % space after each body paragraph
 \def\crocee@par@indent{1cm}          % paragraph indentation (when enabled)
-\def\crocee@eq@skip{6bp}             % display equation vertical skip (calibrated 8 pt Word)
+%% Display-equation skip (\abovedisplayskip, \belowdisplayskip, ...).
+%% The Word template specifies 8 pt before and after an equation, measured
+%% between line boxes of "exact" height. TeX measures the display skip between
+%% the real boxes of the neighbouring lines, so the same number would give a
+%% different distance. 6 bp is an EMPIRICAL value, calibrated against a PDF
+%% exported from Word (not derived from font metrics); re-check it with a new
+%% Word export whenever the Word template or the font metrics change.
+\def\crocee@eq@skip{6bp}
 \def\crocee@title@before{24bp}       % space before paper title
 \def\crocee@title@after{6bp}         % space directly after paper title
 \def\crocee@abs@before{0bp}         % space before Abstract heading
@@ -96,6 +106,11 @@
 \def\crocee@cap@figureskip{12bp}     % space below figure caption
 \def\crocee@float@gap{6bp}           % base gap above/below in-text floats
 \def\crocee@float@sep{12bp}          % space between two adjacent floats
+%% Fine correction (EMPIRICAL, calibrated against the Word export, like
+%% \crocee@eq@skip) of the space before a \section that directly follows a
+%% float; it is subtracted in \crocee@floatafter (Section 11). Set to 0bp to
+%% see the uncorrected, purely metric value.
+\def\crocee@float@trim{0.75bp}
 \def\crocee@table@colsep{5.4bp}      % horizontal cell padding in tables (0.19 cm)
 \def\crocee@table@noteskip{4pt}      % space above \tablenotes
 \def\crocee@bib@itemsep{6bp}         % space between bibliography items
@@ -123,7 +138,7 @@
 %% --- 1.10 External Directories & Bibliography Style
 \def\crocee@figdir{Figures/}                 % default folder for figures and logo
 \def\crocee@defdir{Definitions/}             % default folder for .bst / definitions
-\def\crocee@bst{elsevier-with-titles}        % default BibTeX style (.bst)
+\def\crocee@bst{Elsevier}                   % default BibTeX style: Definitions/Elsevier.bst
 
 %% =====================================================================
 %%  2. CLASS OPTIONS
@@ -139,7 +154,10 @@
 \DeclareOption{nourlunderline}{\crocee@ulurlfalse}
 \DeclareOption{a4paper}{}
 \DeclareOption{11pt}{}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
+\DeclareOption{final}{\PassOptionsToClass{final}{article}}
+\DeclareOption*{\ClassWarning{CroCEE}{Unknown class option `\CurrentOption' ignored
+  (valid: fullpaper, extended, noparindent, hyphenation, nourlunderline)}}
 \ProcessOptions\relax
 
 \LoadClass[a4paper,11pt]{article}
@@ -188,6 +206,16 @@
 \newskip\crocee@secbeforeskip
 \newlength\crocee@floatcomp
 
+%% \crocee@floatcomp -- correction for the change of font size at the end of a
+%% float. The last line of a float is a 10 bp caption or table line, the next
+%% line is an 11 bp body line. With Word's line model (descent kept at the
+%% bottom of the line box, see Section 1.1) the baseline distance changes by
+%% desc*(size_prev - size_next) when the font size changes, which is exactly
+%% \crocee@vgap{10}{0pt}{11} = -0.285 bp. \crocee@floatend subtracts
+%% \crocee@floatcomp (= +0.285 bp for the default sizes) to apply it; the
+%% formula below is this difference written with the master parameters, so it
+%% follows automatically if font sizes or line pitch are changed.
+%%
 %% Master recalculation routine: updates all derived quantities from Section 1
 \newcommand*\crocee@recalculate{%
   %% 1. Derived line metrics
@@ -290,6 +318,7 @@
     figurecapskip   .tl_set:N = \crocee@cap@figureskip,
     floatgap        .tl_set:N = \crocee@float@gap,
     floatsep        .tl_set:N = \crocee@float@sep,
+    floattrim       .tl_set:N = \crocee@float@trim,
     bibitemsep      .tl_set:N = \crocee@bib@itemsep,
   }
 \NewDocumentCommand \croceesetup { m }
@@ -337,7 +366,7 @@
   \IfFontExistsTF{Palatino Linotype}{%
     \setmainfont{Palatino Linotype}%
   }{%
-    \ClassWarningNoLine{crocee}{Palatino Linotype not installed; using TeX Gyre
+    \ClassWarningNoLine{CroCEE}{Palatino Linotype not installed; using TeX Gyre
       Pagella (same glyph widths)}%
     \setmainfont{TeX Gyre Pagella}%
   }%
@@ -362,6 +391,29 @@
   \uchyph=0
 \fi
 \widowpenalty=10000 \clubpenalty=10000
+
+%% Footnotes: 9 bp text (\footnotesize), no paragraph indent, hanging mark.
+%% The Word template does not specify footnotes, so this is a conservative
+%% choice that stays within the page geometry.
+\renewcommand\footnoterule{\kern-3\p@\hrule\@width.3\columnwidth\@height.5bp\kern2.5bp}
+\skip\footins=8bp plus 2bp minus 2bp\relax
+\setlength\footnotesep{6bp}
+\long\def\@makefntext#1{%
+  \parindent\z@\noindent\hangindent\crocee@tw{\crocee@tw@bibindent}\hangafter\@ne
+  \hb@xt@\crocee@tw{\crocee@tw@bibindent}{\@makefnmark\hfil}#1}
+
+%% Endnotes: \endnote{text} in the text, \printendnotes where the list should
+%% appear (usually before the References). Same 9 bp style as footnotes.
+\RequirePackage{endnotes}
+\renewcommand\notesname{Notes}
+\renewcommand\theendnote{\roman{endnote}}   % i, ii, ... (footnotes: 1, 2, ...)
+\renewcommand\makeenmark{\textsuperscript{\theenmark}}
+\def\enotesize{\footnotesize}
+\def\enoteheading{\section*{\notesname}}
+\def\enoteformat{%
+  \parindent\z@\leftskip\crocee@tw{\crocee@tw@bibindent}\rightskip\z@
+  \leavevmode\llap{\theenmark.\hskip.3em}}
+\newcommand\printendnotes{\theendnotes}
 
 \IfFileExists{enumitem.sty}{%
   \RequirePackage{enumitem}%
@@ -396,7 +448,7 @@
   }{\IfFileExists{\crocee@logo.pdf}{%
       \includegraphics[width=68.47bp,height=41.67bp]{\crocee@logo.pdf}%
     }{%
-      \ClassWarningNoLine{crocee}{Logo file \crocee@logo.png not found}%
+      \ClassWarningNoLine{CroCEE}{Logo file \crocee@logo.png not found}%
       \fbox{\parbox[b][37pt][c]{64pt}{\centering\tiny CroCEE logo}}%
     }}}
 \let\crocee@doi\@empty
@@ -435,7 +487,10 @@
 %% =====================================================================
 \let\crocee@authors\@empty
 \let\crocee@affils\@empty
+\let\crocee@pdfauthor\@empty      % plain list of names for the PDF metadata
 \renewcommand\author[2][]{%
+  \ifx\crocee@pdfauthor\@empty\else\g@addto@macro\crocee@pdfauthor{, }\fi
+  \g@addto@macro\crocee@pdfauthor{#2}%
   \ifx\crocee@authors\@empty\else\g@addto@macro\crocee@authors{, }\fi
   \if\relax\detokenize{#1}\relax
     \g@addto@macro\crocee@authors{#2}%
@@ -448,19 +503,25 @@
   \par\noindent\hangindent\crocee@tw{\crocee@tw@affilhang}\hangafter1
   \if\relax\detokenize{#1}\relax\else\textsuperscript{(#1)} \fi#2\par}
 \newcommand\crocee@titlefont{\crocee@fs{\crocee@sz@title}\bfseries}
+%% The title is printed in capital letters (as required by the template), so
+%% the author may type it in any case. Math is not changed; protect text that
+%% must keep its case (units, symbols) with \NoCaseChange{...}, e.g.
+%% \title{Piers loaded with 10 \NoCaseChange{kN}}. The PDF title keeps the
+%% original case.
+\newcommand\crocee@titletext{\MakeUppercase{\@title}}
 
 \renewcommand\maketitle{\par
   \begingroup
     \parskip\z@ \parindent\z@ \lineskiplimit-\maxdimen
     \setbox\@tempboxa\vbox{\crocee@titlefont\centering
-      \@title\par\global\@tempcnta\prevgraf}%
+      \crocee@titletext\par\global\@tempcnta\prevgraf}%
     \ifnum\@tempcnta>2
-      \ClassWarningNoLine{crocee}{The title has more than two lines}%
+      \ClassWarningNoLine{CroCEE}{The title has more than two lines}%
     \fi
     % Space before the title
     \vspace*{\dimexpr\crocee@title@before-\topskip\relax}%
     \prevdepth-1000pt
-    {\crocee@titlefont\centering\crocee@strut\@title\par}%
+    {\crocee@titlefont\centering\crocee@strut\crocee@titletext\par}%
     % Space after title + empty spacer line
     \vskip\crocee@vgap{\crocee@sz@title}%
       {\dimexpr\crocee@title@after+\crocee@lh\dimexpr\crocee@sz@titlespacer bp\relax\relax}%
@@ -548,6 +609,9 @@
 \titleformat{name=\subsubsection,numberless}[block]
   {\crocee@fs{\crocee@sz@subsubsec}\bfseries\raggedright}{}{0pt}{}
 
+%% One-shot override: \keywords (Section 9) and the float hooks (Section 11)
+%% set \crocee@secbeforeskip for the NEXT \section only; it is restored at the
+%% start of every following paragraph.
 \newcommand\crocee@kwreset{\global\crocee@secbeforeskip\crocee@secbefore}
 \AddToHook{para/begin}{\crocee@kwreset}
 
@@ -555,6 +619,8 @@
 \titlespacing*{\section}{0pt}{\crocee@secbeforeskip}{\crocee@secafter}
 \titlespacing*{\subsection}{0pt}{\crocee@subbefore}{\crocee@subafter}
 \titlespacing*{\subsubsection}{0pt}{\crocee@subbefore}{\crocee@subafter}
+\titleformat{\paragraph}[runin]
+  {\crocee@fs{\crocee@sz@subsec}\bfseries}{}{0pt}{}
 \titlespacing*{\paragraph}{0pt}{\crocee@subbefore}{1em}
 
 %% =====================================================================
@@ -574,9 +640,15 @@
 \def\fps@figure{!htbp}
 \def\fps@table{!htbp}
 
+%% After a float: \crocee@floatend removes the 0.285 bp font-size difference
+%% (see \crocee@floatcomp), and \crocee@floatafter shortens the space before
+%% the next \section by what has already been inserted: the extra line-box
+%% term \crocee@floatcomp, the float gap below the float (\textfloatsep =
+%% \intextsep) and \parskip, which \titlespacing adds again. The remaining
+%% \crocee@float@trim is empirical (Section 1.6).
 \newcommand\crocee@floatend{\par\vskip-\crocee@floatcomp}
 \newcommand\crocee@floatafter{%
-  \global\crocee@secbeforeskip\dimexpr\crocee@sec@before+\crocee@floatcomp-\textfloatsep-\parskip-0.75bp\relax}
+  \global\crocee@secbeforeskip\dimexpr\crocee@sec@before+\crocee@floatcomp-\textfloatsep-\parskip-\crocee@float@trim\relax}
 \AddToHook{env/table/end}{\crocee@floatend}
 \AddToHook{env/figure/end}{\crocee@floatend}
 \AddToHook{env/table/after}{\crocee@floatafter}
@@ -595,8 +667,10 @@
 
 \newlength\extralength
 \setlength\extralength{0cm}
-\newlength\fulllength
-\AtBeginDocument{\setlength\fulllength{\dimexpr\textwidth+\extralength\relax}}
+%% \fulllength is a macro (not a length register), so it follows a change of
+%% \extralength made anywhere in the document, e.g. before a wide table. The
+%% table is extended to the left only (adjustwidth{-\extralength}{0cm}).
+\newcommand\fulllength{\dimexpr\textwidth+\extralength\relax}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \setlength\heavyrulewidth{1.0bp}
 \setlength\lightrulewidth{0.5bp}
@@ -736,11 +810,18 @@
   \def\UrlLeft{\crocee@ulall}
 \fi
 
+%% hyperref is loaded at \begin{document} unless the author has already loaded
+%% it (with his or her own options). Links are not coloured or framed
+%% (hidelinks) when the class loads it. The PDF metadata (title, author,
+%% subject, language) are filled in from \title and \author; to override them
+%% use \hypersetup after \begin{document}.
 \AddToHook{begindocument/before}{%
-  \RequirePackage{hyperref}%
-  \hypersetup{hidelinks, pdfstartview=FitH,
+  \@ifpackageloaded{hyperref}{}{\RequirePackage[hidelinks]{hyperref}}%
+  \hypersetup{pdfstartview=FitH,
     pdftitle={\crocee@pdftitle},
-    pdfsubject={4th Croatian Conference on Earthquake Engineering - 4CroCEE}}%
+    pdfauthor={\crocee@pdfauthor},
+    pdfsubject={4th Croatian Conference on Earthquake Engineering - 4CroCEE},
+    pdflang={en-US}}%
   \urlstyle{same}}
 
 %% =====================================================================
@@ -753,16 +834,16 @@
   \fi
   \ifcrocee@extended
     \ifnum\@tempcnta>\crocee@pages@extmax\relax
-      \ClassWarningNoLine{crocee}{The extended abstract has
+      \ClassWarningNoLine{CroCEE}{The extended abstract has
         \the\@tempcnta\space pages; the maximum is \crocee@pages@extmax}%
     \fi
   \else
     \ifnum\@tempcnta>\crocee@pages@fullmax\relax
-      \ClassWarningNoLine{crocee}{The paper has \the\@tempcnta\space pages;
+      \ClassWarningNoLine{CroCEE}{The paper has \the\@tempcnta\space pages;
         the maximum is \crocee@pages@fullmax}%
     \fi
     \ifnum\@tempcnta<\crocee@pages@fullmin\relax
-      \ClassWarningNoLine{crocee}{The paper has \the\@tempcnta\space pages;
+      \ClassWarningNoLine{CroCEE}{The paper has \the\@tempcnta\space pages;
         the minimum is \crocee@pages@fullmin}%
     \fi
   \fi}

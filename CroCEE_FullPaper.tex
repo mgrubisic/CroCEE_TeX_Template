@@ -19,7 +19,7 @@
 %% =====================================================================
 \documentclass{Definitions/CroCEE}
 
-\title{TITLE (uppercase, max. two lines)}
+\title{Title of the paper (printed in capitals automatically, max. two lines)}
 
 \author[1]{First Author}
 \author[2]{Second Author}
@@ -44,13 +44,13 @@ The abstract needs to be the same as the one given in the accepted version. Adju
 
 \section{General Appearance}
 
-This document explains and illustrates how to prepare papers for the 4\textsuperscript{th} Croatian Conference on Earthquake Engineering -- 4CroCEE 2027 using the LaTeX template. Papers should not exceed \textbf{12 pages in length,} including the abstract, figures, tables, endnotes, and references. \textbf{The minimum number of pages is 6 and the maximum is 12}. Manuscripts must be written in English. Authors using LaTeX must submit the complete source files \textbf{(.tex, .bib and figure files)} together with the compiled PDF, and should ensure that the formatting complies with the guidelines below before submission.
+This document explains and illustrates how to prepare papers for the 4\textsuperscript{th} Croatian Conference on Earthquake Engineering -- 4CroCEE 2027 using the LaTeX template. Papers should not exceed \textbf{12 pages in length,} including the abstract, figures, tables, endnotes, and references. \textbf{The minimum number of pages is 6 and the maximum is 12}. Manuscripts must be written in English. Authors using LaTeX must submit the complete source files \textbf{(.tex, .bib and figure files)} together with the compiled PDF, and should ensure that the formatting complies with the guidelines below before submission. Note that the compilation of this example prints the warning that the paper has fewer than 6 pages; the warning disappears when the paper reaches the required length.
 
 \section{Organization}
 
-Following the abstract, it is recommended to begin with an Introduction section and end with a Conclusion section summarizing the main findings of the paper. All sections should be written and arranged in a concise and easy to follow style. \textbf{The page layout, the 11\,pt Palatino font, the line spacing (exactly 1.2 times the font size), the single-column text and the 1\,cm indentation of the second and the following paragraphs are set by the class file \texttt{crocee.cls}. Do not change the margins, font sizes or spacing, and do not modify the class file.} The template can be compiled with pdfLaTeX, XeLaTeX or LuaLaTeX; the bibliography is generated with BibTeX (see the References section).
+Following the abstract, it is recommended to begin with an Introduction section and end with a Conclusion section summarizing the main findings of the paper. All sections should be written and arranged in a concise and easy to follow style. \textbf{The page layout, the 11\,pt Palatino font, the line spacing (exactly 1.2 times the font size), the single-column text and the 1\,cm indentation of the second and the following paragraphs are set by the class file \texttt{CroCEE.cls}. Do not change the margins, font sizes or spacing, and do not modify the class file.} The template can be compiled with pdfLaTeX, XeLaTeX or LuaLaTeX; the bibliography is generated with BibTeX (see the References section).
 
-Section headings are created with the \texttt{\textbackslash section} command and are typeset in bold, 13\,pt, as shown above. Subsection headings (\texttt{\textbackslash subsection}) are typeset in bold, 11\,pt. Use the starred forms (e.g., \texttt{\textbackslash section*}) for unnumbered headings such as Acknowledgements. Page numbers are not printed; they are added by the editors.
+Section headings are created with the \texttt{\textbackslash section} command and are typeset in bold, 13\,pt, as shown above. Subsection headings (\texttt{\textbackslash subsection}) are typeset in bold, 11\,pt. Use the starred forms (e.g., \texttt{\textbackslash section*}) for unnumbered headings such as Acknowledgements. The title is converted to capital letters automatically; text that must keep its case (e.g., units) is protected with \texttt{\textbackslash NoCaseChange\{kN\}}. Page numbers are not printed; they are added by the editors.
 
 All tables, figures and equations used in the text are numbered automatically in sequence. Always refer to them using labels and the commands \texttt{\textbackslash tabref}, \texttt{\textbackslash figref} and \texttt{\textbackslash Eqref} instead of typing the numbers by hand, so that the numbering stays correct when the order changes. Please pay attention to the quality of the figures.
 
@@ -62,7 +62,7 @@ Use the decimal system for headings with no more than three levels (\texttt{\tex
 
 Tables are referred to in the text as \tabref{tab:modes}, \texttt{\textbackslash tabref\{tab:modes\}} (giving ``Table 1'', ``Table 2'', etc.) and must be included as part of the text, as shown below. The caption of each table is placed \underline{above} the table and is centred, in 10\,pt font; with the template it is enough to put the \texttt{\textbackslash caption} command before the table body. Table content is set in 10\,pt font by default (not smaller than 8\,pt).
 
-Tables should be formatted with the \texttt{booktabs} rules (\texttt{\textbackslash toprule}, \texttt{\textbackslash midrule} and \texttt{\textbackslash bottomrule}) and without vertical lines, double lines, shading or colour. The table should span the full text width: use the \texttt{tabularx} environment with the width \texttt{\textbackslash fulllength}, the centred stretching column type \texttt{C} and the standard centred column type \texttt{c}, as in \tabref{tab:modes}. Explanations of symbols and abbreviations are given below the table with the \texttt{\textbackslash tablenotes} command (9\,pt). A particularly wide table may protrude into the margins by setting, e.g., \texttt{\textbackslash setlength\{\textbackslash extralength\}\{1cm\}} before the table, which is used by the \texttt{adjustwidth} environment inside the table.
+Tables should be formatted with the \texttt{booktabs} rules (\texttt{\textbackslash toprule}, \texttt{\textbackslash midrule} and \texttt{\textbackslash bottomrule}) and without vertical lines, double lines, shading or colour. The table should span the full text width: use the \texttt{tabularx} environment with the width \texttt{\textbackslash fulllength}, the centred stretching column type \texttt{C} and the standard centred column type \texttt{c}, as in \tabref{tab:modes}. Explanations of symbols and abbreviations are given below the table with the \texttt{\textbackslash tablenotes} command (9\,pt). A particularly wide table may protrude into the left margin by setting, e.g., \texttt{\textbackslash setlength\{\textbackslash extralength\}\{1cm\}} before the table; the table width \texttt{\textbackslash fulllength} then becomes the text width plus 1\,cm, and the \texttt{adjustwidth} environment inside the table shifts it by the same amount. Reset the value with \texttt{\textbackslash setlength\{\textbackslash extralength\}\{0cm\}} after the table.
 
 \begin{table}
   \begin{adjustwidth}{-\extralength}{0cm}
@@ -85,14 +85,24 @@ Tables should be formatted with the \texttt{booktabs} rules (\texttt{\textbacksl
   \end{adjustwidth}
 \end{table}
 
-Figures are referred to in the text as \figref{fig:model}, \texttt{\textbackslash figref\{fig:model\}} (giving ``Fig. 1'', ``Fig. 2'', etc.) and must be included as part of the text. Colour figures can be used, with a minimum resolution of 300 dpi; vector graphics (PDF) are preferred for diagrams and plots. The caption must be independent of the corresponding figure and placed \underline{below} the figure (put the \texttt{\textbackslash caption} command after \texttt{\textbackslash includegraphics}). Figures are centred with the \texttt{\textbackslash centering} command inside the \texttt{figure} environment, and their width should not exceed the text width (e.g., \texttt{width=\textbackslash textwidth}).
+Figures are referred to in the text as \figref{fig:model}, \texttt{\textbackslash figref\{fig:model\}} (giving ``Fig. 1'', ``Fig. 2'', etc.) and must be included as part of the text. Colour figures can be used, with a minimum resolution of 300 dpi at the printed size; vector graphics (PDF) are preferred for diagrams and plots. (The example figure is a low-resolution placeholder and is therefore printed at 8.5\,cm; replace it with your own figure.) The caption must be independent of the corresponding figure and placed \underline{below} the figure (put the \texttt{\textbackslash caption} command after \texttt{\textbackslash includegraphics}). Figures are centred with the \texttt{\textbackslash centering} command inside the \texttt{figure} environment, and their width should not exceed the text width (e.g., \texttt{width=\textbackslash textwidth}).
 
 \begin{figure}
   \centering
-  \includegraphics[width=12cm]{Figures/example_figure}
+  \includegraphics[width=12cm]{Figures/example_figure.png}
   \caption{a) Building plan; b) Numerical model.}
   \label{fig:model}
 \end{figure}
+
+\subsection{Lists, footnotes and endnotes}
+
+Bulleted lists (\texttt{itemize}) and numbered lists (\texttt{enumerate}) are indented by 1.27\,cm:
+\begin{itemize}
+  \item first item;
+  \item second item.
+\end{itemize}
+
+A footnote is created with \texttt{\textbackslash footnote}\footnote{Footnotes are set in 9\,pt font at the bottom of the page.}. Endnotes are created with \texttt{\textbackslash endnote}\endnote{Endnotes are collected in a list, which is printed where \texttt{\textbackslash printendnotes} is placed, usually before the References.} and printed with \texttt{\textbackslash printendnotes}. \paragraph{Run-in heading} A \texttt{\textbackslash paragraph} is a bold run-in heading without a number; it is not part of the Word template and should be used sparingly.
 
 \section{Equations}
 
@@ -118,9 +128,11 @@ Acknowledgements provide an opportunity to express appreciation to those who con
 
 4CroCEE 2027 reserves the copyright of the published proceedings. Authors will have the right to use the content of published papers, in part or in full, for their own work. Authors who use previously published data and illustrations must acknowledge the original source in the accompanying captions.
 
+\printendnotes
+
 %% (\setbibpreamble is optional text between the heading and the list;
 %%  it is used here only to explain the style -- delete it in your paper)
-\setbibpreamble{References must be cited in the text using square brackets, numbered according to the order in which they appear in the text, e.g. \cite{DAyala2003,Bommer2010} or \cite{Magenes2011,POLIMI2010,Kayen2014,Chopra2019,Beyer2019,Lazarevic2019}, and listed at the end of the manuscript in a section called References. Citations are produced with \texttt{\textbackslash cite\{key\}}. The reference list follows the \emph{Elsevier (numeric, with titles)} style and is generated automatically by BibTeX from the file \texttt{Bibliography/references.bib} with the style \texttt{Definitions/Elsevier.bst}; only the cited works are listed, in order of first citation. The same style is available in Zotero and Mendeley under the same name, so that the Word and LaTeX versions of a paper produce identical reference lists. Examples of a journal article \cite{DAyala2003,Bommer2010}, a conference paper \cite{Magenes2011}, technical reports \cite{POLIMI2010,Kayen2014}, a book \cite{Chopra2019}, an electronic source \cite{Beyer2019} and a personal communication \cite{Lazarevic2019} are given below; the corresponding entries are in \texttt{Bibliography/References.bib}.}
+\setbibpreamble{References must be cited in the text using square brackets, numbered according to the order in which they appear in the text, e.g. \cite{DAyala2003,Bommer2010} or \cite{Magenes2011,POLIMI2010,Kayen2014,Chopra2019,Brown2001,Trent1975,Kovac2020,Beyer2019,Horvat2019}, and listed at the end of the manuscript in a section called References. Citations are produced with \texttt{\textbackslash cite\{key\}}. The reference list follows the \emph{Elsevier (numeric, with titles)} style and is generated automatically by BibTeX from the file \texttt{Bibliography/References.bib} with the style \texttt{Definitions/Elsevier.bst}; only the cited works are listed, in order of first citation. The same style is available in Zotero and Mendeley under the same name, so that papers written in Word and in LaTeX use the same reference style. Examples of a journal article \cite{DAyala2003,Bommer2010}, a conference paper \cite{Magenes2011}, technical reports \cite{POLIMI2010,Kayen2014}, a book \cite{Chopra2019}, a book chapter \cite{Brown2001}, a doctoral and a master's thesis \cite{Trent1975,Kovac2020}, an electronic source \cite{Beyer2019} and a personal communication \cite{Horvat2019} are given below; the corresponding entries are in \texttt{Bibliography/References.bib}.}
 
 \bibliographystyle{Definitions/Elsevier}
 \bibliography{Bibliography/References}
