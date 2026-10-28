@@ -40,16 +40,16 @@
 %% Word keeps the font descent (Palatino Linotype: 0.285 x size) at the
 %% bottom of the line box and takes the rest from the top, so the ascent
 %% of the line box is pitch - descent.
-\def\crocee@lh{1.2}               % line pitch / font size (Word "Exactly")
-\def\crocee@desc{0.285}            % descent of the line box / font size
-\def\crocee@asc{0.915}             % ascent of the line box = lh - desc
+\def\crocee@lh{1.0}               % line pitch / font size (Word "Exactly")
+\def\crocee@desc{0.285}            % descent of the line box / font size {0.285} 
+\def\crocee@asc{0.915}             % ascent of the line box = lh - desc {0.915}   
 
 %% --- 1.2 Line Spacing Multipliers (1.0 = the exact pitch above)
-\def\crocee@mult{1.0}               % body text (\normalsize) line spacing multiple
-\def\crocee@mult@abstract{1.0}       % abstract body line spacing multiple
-\def\crocee@mult@caption{1.0}        % figure/table captions line spacing multiple
-\def\crocee@mult@table{1.0}          % table cells line spacing multiple
-\def\crocee@mult@bib{1.0}            % references list line spacing multiple
+\def\crocee@mult{1.2}               % body text (\normalsize) line spacing multiple
+\def\crocee@mult@abstract{1.2}       % abstract body line spacing multiple
+\def\crocee@mult@caption{1.2}        % figure/table captions line spacing multiple
+\def\crocee@mult@table{1.2}          % table cells line spacing multiple
+\def\crocee@mult@bib{1.2}            % references list line spacing multiple
 
 %% --- 1.3 Base Font Size Scale (in Word points: 1 bp = 1.00375 pt)
 \def\crocee@sz@tiny{6}
@@ -432,12 +432,30 @@
 %% =====================================================================
 %%  7. HEADER & FOOTER
 %% =====================================================================
+\definecolor{croceelink}{RGB}{5, 99, 193} % Word hyperlink plava (ili koristi 'blue')
+%% \definecolor{croceelink}{RGB}{10, 50, 200} % Word hyperlink plava (ili koristi 'blue')
+
+\AddToHook{begindocument/before}{%
+  \@ifpackageloaded{hyperref}{}{\RequirePackage{hyperref}}%
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=black,      % interne poveznice (slike, tablice, jednadžbe) ostaju crne
+    citecolor=black,      % citati [1] ostaju crni
+    filecolor=black,
+    urlcolor=croceelink,  % svi \url{...} (uključujući \paperdoi) postaju plavi
+    pdfstartview=FitH,
+    pdftitle={\crocee@pdftitle},
+    pdfauthor={\crocee@pdfauthor},
+    pdfsubject={4th Croatian Conference on Earthquake Engineering - 4CroCEE},
+    pdflang={en-US}}%
+  \urlstyle{same}}
+
 \RequirePackage{graphicx}
 \newcommand\croceeheader[3]{%
   \gdef\crocee@hdr@a{#1}\gdef\crocee@hdr@b{#2}\gdef\crocee@hdr@c{#3}}
 \croceeheader
   {Proceedings of the 4\textsuperscript{th} Croatian Conference on
-   Earthquake Engineering - 4CroCEE}
+   Earthquake Engineering -- 4CroCEE}
   {22--25 March 2027, Opatija, Croatia}
   {Copyright \textcopyright{} 2027 CroCEE}
 \newcommand\croceelogo[1]{\gdef\crocee@logo{#1}}
