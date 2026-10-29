@@ -1,9 +1,14 @@
 % Example bibliography for the 4CroCEE LaTeX template.
-% Style: Elsevier (numeric, with titles) -- elsevier-with-titles.bst
+% Style: Elsevier (numeric, with titles) -- Definitions/Elsevier.bst
 % (the same style is available in Zotero and Mendeley for the Word template).
+%
+% The file contains one example of each entry type described in README.md.
+% Only the entries that are cited in a paper appear in its reference list.
 %
 % Write titles as they should appear; protect proper names and acronyms
 % with braces, e.g. {Eurocode}, {URM}. Give the edition as a number.
+% Names with Croatian letters (Š, Đ, Č, Ć, Ž) can be typed directly in UTF-8.
+% Use "and others" for an incomplete author list (printed as "et al.").
 
 % ---- For journals -------------------------------------------------------
 @article{DAyala2003,
@@ -64,6 +69,34 @@
   year      = {2019}
 }
 
+% ---- For book chapters --------------------------------------------------
+@incollection{Brown2001,
+  author    = {Brown, Bob and Aaron, Mary},
+  title     = {Example chapter title},
+  booktitle = {Example Book Title},
+  editor    = {Smith, John},
+  edition   = {3},
+  publisher = {Wiley},
+  address   = {New York, USA},
+  year      = {2001},
+  pages     = {230--257}
+}
+
+% ---- For theses ----------------------------------------------------------
+@phdthesis{Trent1975,
+  author = {Trent, John W.},
+  title  = {Example title of a doctoral thesis},
+  school = {University of California},
+  year   = {1975}
+}
+
+@mastersthesis{Kovac2020,
+  author = {Kovač, Ivan and Šimić, Ana},
+  title  = {Example title of a master's thesis},
+  school = {University of Rijeka},
+  year   = {2020}
+}
+
 % ---- For electronic sources --------------------------------------------
 @online{Beyer2019,
   author  = {Beyer, Katrin and Wilding, Bastian and Rezaie, Amir},
@@ -74,8 +107,8 @@
 }
 
 % ---- For personal communication ----------------------------------------
-@misc{Lazarevic2019,
-  author = {Lazarevic, Dragutin},
+@misc{Horvat2019,
+  author = {Horvat, Petar},
   title  = {Personal correspondence},
   year   = {2019}
 }
