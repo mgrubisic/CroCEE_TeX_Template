@@ -1,12 +1,13 @@
 %% =====================================================================
-%%  4CroCEE 2027 -- full paper template (LaTeX)
+%%  CroCEE -- full paper template (LaTeX)
+%%  Conference data (edition, dates, logo): Definitions/conference.cfg
 %%
 %%  Files: Definitions/CroCEE.cls (class), Definitions/Elsevier.bst
 %%         (BibTeX style), Bibliography/references.bib, Figures/ (logo, figures)
 %%  Compile: pdfLaTeX (or XeLaTeX/LuaLaTeX) + BibTeX + pdfLaTeX x2;
 %%           Overleaf does this automatically.
 %%
-%%  Class options: fullpaper (default) | extended   -- see 4CroCEE_ExtendedAbstract.tex
+%%  Class options: fullpaper (default) | extended   -- see CroCEE_ExtendedAbstract.tex
 %%                 noparindent, hyphenation, nourlunderline
 %%  Commands:  \author[1]{Name}  \affiliation[1]{...}  \keywords{...}
 %%             \figref{..} -> Fig. 1   \tabref{..} -> Table 1
@@ -39,18 +40,18 @@
 \maketitle
 
 \begin{abstract}
-The abstract needs to be the same as the one given in the accepted version. Adjustments are allowed only if they are necessary to take into account the suggestions of the reviewers. The abstract should summarize the context, content, and conclusions of the paper in 250 to 300 words. It should not indicate how the paper is organized. It should not be a table of contents in prose or an introduction. It should not contain references or equations. \textbf{The abstract is typeset automatically by the \texttt{abstract} environment (10\,pt Palatino, line spacing exactly 12\,pt); do not change the font size or spacing.}
+The abstract needs to be the same as the one given in the accepted version. Adjustments are allowed only if they are necessary to take into account the suggestions of the reviewers. The abstract should summarize the context, content, and conclusions of the paper in 250 to 300 words. It should not indicate how the paper is organized. It should not be a table of contents in prose or an introduction. It should not contain references or equations. \textbf{The abstract is typeset automatically by the \texttt{abstract} environment (10\,pt Palatino, line spacing exactly 12.6\,pt); do not change the font size or spacing.}
 \end{abstract}
 
 \keywords{keywords1, keywords2, etc. Authors should suggest about 4--8 keywords for indexing purposes (separated by commas). Keywords are typeset automatically in italics, 10\,pt, by the \texttt{\textbackslash keywords} command.}
 
 \section{General Appearance}
 
-This document explains and illustrates how to prepare papers for the 4\textsuperscript{th} Croatian Conference on Earthquake Engineering -- 4CroCEE 2027 using the LaTeX template. Papers should not exceed \textbf{12 pages in length,} including the abstract, figures, tables, endnotes, and references. \textbf{The minimum number of pages is 6 and the maximum is 12}. Manuscripts must be written in English. Authors using LaTeX must submit the complete source files \textbf{(.tex, .bib and figure files)} together with the compiled PDF, and should ensure that the formatting complies with the guidelines below before submission. Note that the compilation of this example prints the warning that the paper has fewer than 6 pages; the warning disappears when the paper reaches the required length.
+This document explains and illustrates how to prepare papers for the \ConfFullName{} -- \ConfShort{} \ConfYear{} using the LaTeX template. Papers should not exceed \textbf{12 pages in length,} including the abstract, figures, tables, endnotes, and references. \textbf{The minimum number of pages is 6 and the maximum is 12}. Manuscripts must be written in English. Authors using LaTeX must submit the complete source files \textbf{(.tex, .bib and figure files)} together with the compiled PDF, and should ensure that the formatting complies with the guidelines below before submission. Note that the compilation of this example prints the warning that the paper has fewer than 6 pages; the warning disappears when the paper reaches the required length.
 
 \section{Organization}
 
-Following the abstract, it is recommended to begin with an Introduction section and end with a Conclusion section summarizing the main findings of the paper. All sections should be written and arranged in a concise and easy to follow style. \textbf{The page layout, the 11\,pt Palatino font, the line spacing (exactly 1.2 times the font size), the single-column text and the 1\,cm indentation of the second and the following paragraphs are set by the class file \texttt{CroCEE.cls}. Do not change the margins, font sizes or spacing, and do not modify the class file.} The template can be compiled with pdfLaTeX, XeLaTeX or LuaLaTeX; the bibliography is generated with BibTeX (see the References section).
+Following the abstract, it is recommended to begin with an Introduction section and end with a Conclusion section summarizing the main findings of the paper. All sections should be written and arranged in a concise and easy to follow style. \textbf{The page layout, the 11\,pt Palatino font, the line spacing (exactly 1.26 times the font size), the single-column text and the 1\,cm indentation of the second and the following paragraphs are set by the class file \texttt{CroCEE.cls}. Do not change the margins, font sizes or spacing, and do not modify the class file.} The template can be compiled with pdfLaTeX, XeLaTeX or LuaLaTeX; the bibliography is generated with BibTeX (see the References section).
 
 Section headings are created with the \texttt{\textbackslash section} command and are typeset in bold, 13\,pt, as shown above. Subsection headings (\texttt{\textbackslash subsection}) are typeset in bold, 11\,pt. Use the starred forms (e.g., \texttt{\textbackslash section*}) for unnumbered headings such as Acknowledgements. The title is converted to capital letters automatically; text that must keep its case (e.g., units) is protected with \texttt{\textbackslash NoCaseChange\{kN\}}. Page numbers are not printed; they are added by the editors.
 
@@ -128,7 +129,7 @@ Acknowledgements provide an opportunity to express appreciation to those who con
 
 \section*{Copyrights}
 
-4CroCEE 2027 reserves the copyright of the published proceedings. Authors will have the right to use the content of published papers, in part or in full, for their own work. Authors who use previously published data and illustrations must acknowledge the original source in the accompanying captions.
+\ConfShort{} \ConfYear{} reserves the copyright of the published proceedings. Authors will have the right to use the content of published papers, in part or in full, for their own work. Authors who use previously published data and illustrations must acknowledge the original source in the accompanying captions.
 
 \printendnotes
 

@@ -1,11 +1,15 @@
 %% =====================================================================
 %%  CroCEE.cls -- LaTeX class for full papers and extended abstracts of
-%%                the 4th Croatian Conference on Earthquake Engineering
-%%                (4CroCEE, 22--25 March 2027, Opatija, Croatia)
+%%                the Croatian Conference on Earthquake Engineering (CroCEE)
+%%
+%%  The class is conference-independent: edition, name, dates, place,
+%%  copyright line and logo are read from Definitions/conference.cfg
+%%  (or set with \croceeconference{key=value,...} in the preamble).
+%%  Additional packages are read from Definitions/packages.tex.
 %%
 %%  Authors: Marin Grubišić and Vedran Jagodnik, with the assistance of
 %%           Claude (Anthropic) and Gemini (Google).
-%%           Version 6.1, October 2026.
+%%           Version 6.2, October 2026.
 %%
 %%  LaTeX re-implementation of the layout of the official MS Word templates
 %%  of the conference (full paper and extended abstract; the extended
@@ -24,32 +28,37 @@
 %%  \crocee@recalculate. Parameters can be edited in Section 1 or
 %%  overridden in the document preamble using \croceesetup{key=value}.
 %% =====================================================================
-%% Required: LaTeX kernel 2022-06-01 or newer (TeX Live 2022+, MiKTeX 22.7+,
-%% Overleaf). Reasons: \fpeval (kernel since 2022-06) and the hook system
-%% (\AddToHook with shipout/background, para/begin, env/.../after).
-\NeedsTeXFormat{LaTeX2e}[2022/06/01]
-\ProvidesClass{CroCEE}[2026/10/28 v6.1 4CroCEE paper class (Palatino, exact line spacing)]
+%% Required: LaTeX kernel 2021-06-01 or newer (TeX Live 2021+, MiKTeX 21.6+,
+%% Overleaf) for the hook system (\AddToHook with shipout/background,
+%% para/begin, env/.../after). \fpeval is in the kernel since 2022-06; on
+%% older kernels the xfp package provides it (harmless wrapper on newer ones).
+\NeedsTeXFormat{LaTeX2e}[2021/06/01]
+\ProvidesClass{Definitions/CroCEE}[2026/10/29 v6.2 CroCEE paper class (Palatino, exact line spacing)]
+\RequirePackage{xfp}
 
 %% =====================================================================
 %%  1. MASTER CONFIGURATION PARAMETERS (SINGLE SOURCE OF TRUTH)
 %% =====================================================================
 
 %% --- 1.1 Line Metrics
-%% The Word template uses "Exactly" line spacing of 1.2 x font size for
-%% every style (11 pt -> 13.2 pt, 10 pt -> 12 pt, 9 pt -> 10.8 pt, ...).
-%% Word keeps the font descent (Palatino Linotype: 0.285 x size) at the
-%% bottom of the line box and takes the rest from the top, so the ascent
-%% of the line box is pitch - descent.
-\def\crocee@lh{1.05}               % line pitch / font size (Word "Exactly")
-\def\crocee@desc{0.285}            % descent of the line box / font size {0.285} 
-\def\crocee@asc{0.915}             % ascent of the line box = lh - desc {0.915}   
+%% The Word template uses "Exactly" line spacing of 1.26 x font size for
+%% every style (11 pt -> 13.86 pt, 10 pt -> 12.6 pt, 9 pt -> 11.34 pt,
+%% 13 pt -> 16.38 pt, 14 pt -> 17.64 pt). Word keeps the font descent
+%% (Palatino Linotype: 0.285 x size) at the bottom of the line box and takes
+%% the rest from the top, so the ascent of the line box is pitch - descent.
+%% (lh = 1.26 with mult = 1.0 is the "exact" model; lh = 1.05 with mult = 1.2
+%% would give the same pitch but the extra-space-below model of Word's
+%% "multiple" spacing, which does not match "Exactly".)
+\def\crocee@lh{1.26}               % line pitch / font size (Word "Exactly")
+\def\crocee@desc{0.285}            % descent of the line box / font size
+\def\crocee@asc{0.975}             % ascent of the line box = lh - desc
 
 %% --- 1.2 Line Spacing Multipliers (1.0 = the exact pitch above)
-\def\crocee@mult{1.2}               % body text (\normalsize) line spacing multiple
-\def\crocee@mult@abstract{1.2}       % abstract body line spacing multiple
-\def\crocee@mult@caption{1.2}        % figure/table captions line spacing multiple
-\def\crocee@mult@table{1.2}          % table cells line spacing multiple
-\def\crocee@mult@bib{1.2}            % references list line spacing multiple
+\def\crocee@mult{1.0}               % body text (\normalsize) line spacing multiple
+\def\crocee@mult@abstract{1.0}       % abstract body line spacing multiple
+\def\crocee@mult@caption{1.0}        % figure/table captions line spacing multiple
+\def\crocee@mult@table{1.0}          % table cells line spacing multiple
+\def\crocee@mult@bib{1.0}            % references list line spacing multiple
 
 %% --- 1.3 Base Font Size Scale (in Word points: 1 bp = 1.00375 pt)
 \def\crocee@sz@tiny{6}
@@ -432,34 +441,59 @@
 %% =====================================================================
 %%  7. HEADER & FOOTER
 %% =====================================================================
-\definecolor{croceelink}{RGB}{5, 99, 193} % Word hyperlink plava (ili koristi 'blue')
-%% \definecolor{croceelink}{RGB}{10, 50, 200} % Word hyperlink plava (ili koristi 'blue')
-
-\AddToHook{begindocument/before}{%
-  \@ifpackageloaded{hyperref}{}{\RequirePackage{hyperref}}%
-  \hypersetup{
-    colorlinks=true,
-    linkcolor=black,      % interne poveznice (slike, tablice, jednadžbe) ostaju crne
-    citecolor=black,      % citati [1] ostaju crni
-    filecolor=black,
-    urlcolor=croceelink,  % svi \url{...} (uključujući \paperdoi) postaju plavi
-    pdfstartview=FitH,
-    pdftitle={\crocee@pdftitle},
-    pdfauthor={\crocee@pdfauthor},
-    pdfsubject={4th Croatian Conference on Earthquake Engineering - 4CroCEE},
-    pdflang={en-US}}%
-  \urlstyle{same}}
+\RequirePackage{xcolor}
+\definecolor{croceelink}{RGB}{5, 99, 193} % Word hyperlink blue (used for URLs, see Section 14)
 
 \RequirePackage{graphicx}
+%% ---- conference data (keys; defaults = 4CroCEE 2027) ----------------
+%%   \croceeconference{edition=4, ordinal=th, name={Croatian Conference on
+%%     Earthquake Engineering}, acronym=CroCEE, short=4CroCEE,
+%%     dates={22--25 March 2027}, place={Opatija, Croatia}, year=2027,
+%%     copyright=CroCEE, logo=Figures/4CroCEE_logo}
+%% Definitions/conference.cfg (if present) is read after the defaults.
+%% Text macros for the examples: \ConfShort, \ConfYear, \ConfName,
+%% \ConfEdition ("4th"), \ConfFullName ("4th Croatian Conference ...")
+\ExplSyntaxOn
+\keys_define:nn { crocee/conf }
+  {
+    edition   .tl_set:N = \crocee@conf@edition,
+    ordinal   .tl_set:N = \crocee@conf@ordinal,
+    name      .tl_set:N = \crocee@conf@name,
+    acronym   .tl_set:N = \crocee@conf@acronym,
+    short     .tl_set:N = \crocee@conf@short,
+    dates     .tl_set:N = \crocee@conf@dates,
+    place     .tl_set:N = \crocee@conf@place,
+    year      .tl_set:N = \crocee@conf@year,
+    copyright .tl_set:N = \crocee@conf@copyright,
+    logo      .tl_set:N = \crocee@logo,
+  }
+\NewDocumentCommand \croceeconference { m } { \keys_set:nn { crocee/conf } { #1 } }
+\ExplSyntaxOff
+\croceeconference{edition=4, ordinal=th,
+  name={Croatian Conference on Earthquake Engineering}, acronym=CroCEE,
+  short=4CroCEE, dates={22--25 March 2027}, place={Opatija, Croatia},
+  year=2027, copyright=CroCEE, logo=Figures/4CroCEE_logo}
+\InputIfFileExists{Definitions/conference.cfg}{}{}
+\newcommand\ConfEdition{\crocee@conf@edition\textsuperscript{\crocee@conf@ordinal}}
+\newcommand\ConfName{\crocee@conf@name}
+\newcommand\ConfFullName{\ConfEdition\ \crocee@conf@name}
+\newcommand\ConfShort{\crocee@conf@short}
+\newcommand\ConfAcronym{\crocee@conf@acronym}
+\newcommand\ConfYear{\crocee@conf@year}
+\newcommand\ConfDates{\crocee@conf@dates}
+\newcommand\ConfPlace{\crocee@conf@place}
+%% header lines, built from the keys; \croceeheader{..}{..}{..} overrides
+\let\crocee@hdr@custom\relax
 \newcommand\croceeheader[3]{%
-  \gdef\crocee@hdr@a{#1}\gdef\crocee@hdr@b{#2}\gdef\crocee@hdr@c{#3}}
-\croceeheader
-  {Proceedings of the 4\textsuperscript{th} Croatian Conference on
-   Earthquake Engineering -- 4CroCEE}
-  {22--25 March 2027, Opatija, Croatia}
-  {Copyright \textcopyright{} 2027 CroCEE}
+  \gdef\crocee@hdr@a{#1}\gdef\crocee@hdr@b{#2}\gdef\crocee@hdr@c{#3}%
+  \let\crocee@hdr@custom\@empty}
+\newcommand\crocee@sethdr{%
+  \ifx\crocee@hdr@custom\relax
+    \gdef\crocee@hdr@a{Proceedings of the \ConfFullName\ -- \ConfShort}%
+    \gdef\crocee@hdr@b{\ConfDates, \ConfPlace}%
+    \gdef\crocee@hdr@c{Copyright \textcopyright{} \ConfYear\ \crocee@conf@copyright}%
+  \fi}
 \newcommand\croceelogo[1]{\gdef\crocee@logo{#1}}
-\croceelogo{Figures/4CroCEE_logo}
 \newcommand\crocee@logobox{%
   \IfFileExists{\crocee@logo.png}{%
     \includegraphics[width=68.47bp,height=41.67bp]{\crocee@logo.png}%
@@ -483,6 +517,7 @@
     + (#1)*\crocee@lh*\crocee@sz@affil, 2)}}
 \newcommand\crocee@drawheader{%
   \begingroup
+  \crocee@sethdr
   \setlength\unitlength{1bp}%
   \crocee@fs{\crocee@sz@affil}\itshape
   \put(75.43,-28.90){\raisebox{-41.67bp}{\crocee@logobox}}%
@@ -833,12 +868,21 @@
 %% (hidelinks) when the class loads it. The PDF metadata (title, author,
 %% subject, language) are filled in from \title and \author; to override them
 %% use \hypersetup after \begin{document}.
+%% Additional packages: Definitions/packages.tex is read here if it exists
+%% (e.g. tikz, pgfplots) -- before hyperref, which the class loads last.
+\InputIfFileExists{Definitions/packages.tex}{}{}
+
 \AddToHook{begindocument/before}{%
-  \@ifpackageloaded{hyperref}{}{\RequirePackage[hidelinks]{hyperref}}%
+  \@ifpackageloaded{hyperref}{}{%
+    \RequirePackage{hyperref}%
+    % URLs (including the DOI line of the header) in Word's hyperlink blue;
+    % internal links and citations black, no frames
+    \hypersetup{colorlinks=true, linkcolor=black, citecolor=black,
+      filecolor=black, urlcolor=croceelink}}%
   \hypersetup{pdfstartview=FitH,
     pdftitle={\crocee@pdftitle},
     pdfauthor={\crocee@pdfauthor},
-    pdfsubject={4th Croatian Conference on Earthquake Engineering - 4CroCEE},
+    pdfsubject={\crocee@conf@edition\crocee@conf@ordinal\space\crocee@conf@name\space-\space\crocee@conf@short},
     pdflang={en-US}}%
   \urlstyle{same}}
 
