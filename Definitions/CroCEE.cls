@@ -40,7 +40,7 @@
 %% Word keeps the font descent (Palatino Linotype: 0.285 x size) at the
 %% bottom of the line box and takes the rest from the top, so the ascent
 %% of the line box is pitch - descent.
-\def\crocee@lh{1.0}               % line pitch / font size (Word "Exactly")
+\def\crocee@lh{1.05}               % line pitch / font size (Word "Exactly")
 \def\crocee@desc{0.285}            % descent of the line box / font size {0.285} 
 \def\crocee@asc{0.915}             % ascent of the line box = lh - desc {0.915}   
 
